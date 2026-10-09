@@ -394,6 +394,12 @@ if analyze_button:
             st.write("No complete HTTP/HTTPS URLs were detected.")
 
         report["submitted_text"] = user_text
+                st.session_state.setdefault("investigation_history", []).append({
+            "risk_score": report["risk_score"],
+            "risk_level": report["risk_level"],
+            "urls_found": ", ".join(report["urls_found"]),
+            "findings_count": len(report["findings"]),
+        })
         report["tool_note"] = (
             "Rule-based educational triage only; not a definitive verdict."
         )
