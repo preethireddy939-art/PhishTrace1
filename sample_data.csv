@@ -1,0 +1,6 @@
+mode,input,expected_observation
+URL,http://account-verify.example.com/login,Should flag HTTP and terms such as account/verify/login
+Email text,"URGENT! Your account is suspended. Click here to verify your password.",Should flag several social-engineering terms
+URL,https://www.example.com/,Should report HTTPS but not treat HTTPS as proof of safety
+URL,https://192.0.2.10/login,Should identify an IP-address hostname and login term
+Email text,"Hello, this is a routine project update.",May return a low score; rule-based systems can miss threats
