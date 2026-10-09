@@ -410,3 +410,41 @@ st.caption(
     "Safety note: HTTPS does not guarantee trustworthiness. "
     "Do not enter real passwords, OTPs, or private information."
 )
+
+# --- Investigation Dashboard ---
+st.divider()
+st.header("📊 Investigation Dashboard")
+
+if "investigation_history" not in st.session_state:
+    st.session_state.investigation_history = []
+
+st.caption(
+    "Dashboard history is stored for this browser session only. "
+    "It resets when the session is cleared."
+)
+
+if st.session_state.investigation_history:
+    history = st.session_state.investigation_history
+
+    total = len(history)
+    high = sum(1 for item in history if item["risk_level"] == "High")
+    medium = sum(1 for item in history if item["risk_level"] == "Medium")
+    low = sum(1 for item in history if item["risk_level"] == "Low")
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Total analyzed", total)
+    c2.metric("High risk", high)
+    c3.metric("Medium risk", medium)
+    c4.metric("Low risk", low)
+
+    st.subheader("Recent investigations")
+    st.dataframe(history, use_container_width=True)
+
+    st.download_button(
+        "Download history as CSV",
+        data=__import__("pandas").DataFrame(history).to_csv(index=False),
+        file_name="phishtrace_history.csv",
+        mime="text/csv",
+    )
+else:
+    st.info("No investigations recorded in this session yet.")
