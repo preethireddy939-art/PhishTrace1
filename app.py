@@ -8,7 +8,7 @@ from urllib.parse import unquote, urlparse
 
 import streamlit as st
 
-st.set_page_config(page_title="PhishTrace | Security Lab", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="PhishTrace | Security Lab", page_icon="ðŸ›¡ï¸", layout="wide")
 
 SHORTENERS = {"bit.ly", "tinyurl.com", "t.co", "is.gd", "cutt.ly", "rb.gy", "shorturl.at", "ow.ly", "buff.ly", "rebrand.ly"}
 TERMS = ["verify", "login", "password", "urgent", "suspended", "account", "free prize", "claim now", "bank details", "confirm identity", "one-time password", "otp", "gift card", "payment failed", "act now", "security alert", "unusual activity"]
@@ -85,9 +85,9 @@ if "investigation_history" not in st.session_state:
 if "latest_report" not in st.session_state:
     st.session_state["latest_report"] = None
 
-st.title("🛡️ PhishTrace")
+st.title("ðŸ›¡ï¸ PhishTrace")
 st.subheader("Smart Phishing Investigation & Reporting System")
-st.caption("Educational security analysis • Rule-based detection")
+st.caption("Educational security analysis â€¢ Rule-based detection")
 st.warning("PhishTrace does not visit submitted URLs. Scores are heuristic, not probabilities or definitive verdicts. Never enter real passwords, OTPs, or private information.")
 
 with st.expander("How to use PhishTrace"):
@@ -97,7 +97,7 @@ sample = "URGENT: Verify your password immediately at http://192.0.2.10/account-
 user_text = st.text_area("Suspicious URL or email/message text", height=170, placeholder="Paste text here. Use fictional examples for testing.")
 a, b, c = st.columns(3)
 with a:
-    analyze_clicked = st.button("🔎 Analyze", type="primary", use_container_width=True)
+    analyze_clicked = st.button("ðŸ”Ž Analyze", type="primary", use_container_width=True)
 with b:
     sample_clicked = st.button("Load sample", use_container_width=True)
 with c:
@@ -139,7 +139,7 @@ if analyze_clicked:
 if st.session_state["latest_report"]:
     report = st.session_state["latest_report"]
     st.divider()
-    st.header("🔍 Investigation Results")
+    st.header("ðŸ” Investigation Results")
     x, y, z = st.columns(3)
     x.metric("Risk score", f'{report["risk_score"]}/100')
     y.metric("Risk level", report["risk_level"])
@@ -152,17 +152,17 @@ if st.session_state["latest_report"]:
         st.info("Few configured warning signs were found. This does not mean the content is safe.")
     st.subheader("Evidence found")
     for finding in report["findings"]:
-        st.write("• " + finding)
+        st.write("â€¢ " + finding)
     st.subheader("URLs detected")
     if report["urls_found"]:
         for url in report["urls_found"]:
             st.code(url)
     else:
         st.write("No complete HTTP/HTTPS URLs detected.")
-    st.download_button("⬇️ Download investigation report (JSON)", data=json.dumps(report, indent=2, ensure_ascii=False), file_name="phishtrace_report.json", mime="application/json")
+    st.download_button("â¬‡ï¸ Download investigation report (JSON)", data=json.dumps(report, indent=2, ensure_ascii=False), file_name="phishtrace_report.json", mime="application/json")
 
 st.divider()
-st.header("📊 Investigation Dashboard")
+st.header("ðŸ“Š Investigation Dashboard")
 history = st.session_state["investigation_history"]
 if history:
     total = len(history)
@@ -180,7 +180,7 @@ if history:
     writer = csv.DictWriter(buffer, fieldnames=list(history[0].keys()))
     writer.writeheader()
     writer.writerows(history)
-    st.download_button("⬇️ Download history (CSV)", data=buffer.getvalue(), file_name="phishtrace_history.csv", mime="text/csv")
+    st.download_button("â¬‡ï¸ Download history (CSV)", data=buffer.getvalue(), file_name="phishtrace_history.csv", mime="text/csv")
 else:
     st.info("No investigations recorded in this browser session yet. Analyze a message to populate the dashboard.")
 
